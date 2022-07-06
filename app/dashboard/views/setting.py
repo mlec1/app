@@ -50,6 +50,7 @@ from app.models import (
     AppleSubscription,
     PartnerUser,
     PartnerSubscription,
+    UnsubscribeBehaviourEnum,
 )
 from app.proton.utils import is_connect_with_proton_enabled, get_proton_partner
 from app.utils import random_string, sanitize_email
@@ -373,6 +374,17 @@ def setting():
                 )
             else:
                 flash("An export of your data is currently in progress", "error")
+        elif request.form.get("form-name") == "change-unsubscribe-behaviour":
+            choose = request.form.get("unsubscribe-behaviour")
+            if choose == UnsubscribeBehaviourEnum.PreserveOriginal.name:
+                current_user.unsub_behaviour = UnsubscribeBehaviourEnum.PreserveOriginal
+            elif choose == UnsubscribeBehaviourEnum.DisableAlias.name:
+                current_user.unsub_behaviour = UnsubscribeBehaviourEnum.DisableAlias
+            else:
+                flash("There was an error. Please try again", "warning")
+                return redirect(url_for("dashboard.setting"))
+            Session.commit()
+            flash("Your preference has been updated", "success")
 
     manual_sub = ManualSubscription.get_by(user_id=current_user.id)
     apple_sub = AppleSubscription.get_by(user_id=current_user.id)

@@ -252,6 +252,11 @@ class JobState(EnumE):
     error = 3
 
 
+class UnsubscribeBehaviourEnum(EnumE):
+    DisableAlias = 0
+    PreserveOriginal = 1
+
+
 class Hibp(Base, ModelMixin):
     __tablename__ = "hibp"
     name = sa.Column(sa.String(), nullable=False, unique=True, index=True)
@@ -490,6 +495,14 @@ class User(Base, ModelMixin, UserMixin, PasswordOracle):
         sa.BigInteger,
         default=FLAG_FREE_DISABLE_CREATE_ALIAS,
         server_default="0",
+        nullable=False,
+    )
+
+    # Keep original unsub behaviour
+    unsub_behaviour = sa.Column(
+        sa.Enum(UnsubscribeBehaviourEnum),
+        default=UnsubscribeBehaviourEnum.PreserveOriginal.name,
+        server_default=UnsubscribeBehaviourEnum.DisableAlias.name,
         nullable=False,
     )
 
