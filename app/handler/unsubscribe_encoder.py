@@ -87,9 +87,10 @@ class UnsubscribeEncoder:
             return f"{config.URL}/dashboard/unsubscribe/{data}"
         if action == UnsubscribeAction.DisableContact:
             return f"{config.URL}/dashboard/block_contact/{data}"
-        if action == UnsubscribeAction.UnsubscribeNewsletter:
-            raise Exception("Cannot encode url to disable newsletter")
-        if action == UnsubscribeAction.OriginalUnsubscribeMailto:
+        if action in (
+            UnsubscribeAction.UnsubscribeNewsletter,
+            UnsubscribeAction.OriginalUnsubscribeMailto,
+        ):
             encoded = UnsubscribeEncoder.encode_subject(action, data)
             return f"{config.URL}/dashboard/unsubscribe/encoded?data={encoded}"
 

@@ -76,7 +76,7 @@ def block_contact(contact_id):
 @login_required
 def encoded_unsubscribe():
     if "data" not in request.args:
-        return redirect(url_for("dashboard"))
+        return redirect(url_for("dashboard.index"))
 
     unsub_data = UnsubscribeHandler().handle_unsubscribe_from_request(
         current_user, request.args.get("data")
