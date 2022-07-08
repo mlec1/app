@@ -409,6 +409,7 @@ def setting():
         change_email_form=change_email_form,
         pending_email=pending_email,
         AliasGeneratorEnum=AliasGeneratorEnum,
+        UnsubscribeBehaviourEnum=UnsubscribeBehaviourEnum,
         manual_sub=manual_sub,
         partner_sub=partner_sub,
         partner_name=partner_name,
